@@ -227,7 +227,6 @@
 |:-------:|:-------:|:--------:|
 | id  | Integer |  管理员ID  |
 | name   | String |  姓名|
-| id      | Integer |  管理员ID  |
 | mobile  | String  |  管理员手机号|
 | password  | String  |  密码|
 | status  | Integer |  状态1:有效0无效  |
@@ -278,7 +277,7 @@
 {
     "id": 1,
     "name": "test",
-	"role_id": {1,3},
+	"role_id": [1,3],
     "mobile": "单测专用项目",
     "status": "1"
 }
@@ -371,3 +370,348 @@
 	"password": 123456,
 }
 ```
+返回示例
+```json
+{
+	"code": 0,
+	"data": {
+		"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJic19yYmFjX2FwaSIsImlhdCI6MTU2MTYwNjEzMywiZXhwIjoxNTYxNjA5NzMzLCJuYmYiOjE1NjE2MDYxMzMsInN1YiI6IiIsImp0aSI6IjY3cHZ3eUJTS1FnNVIwcUlIN1hsRHIwckxjb29hZ05pIiwidXNlcklkIjo5fQ.dbBHECGvOPy2Uk2yYL2NM5SD2JCeIaOLy-79UUvADTE"
+	}
+}
+```
+
+## 角色
+
+### 1.角色列表
+
+>GET /role
+
+请求参数
+
+| 字段名  |  类型   |   注释   |
+|:-------:|:-------:|:--------:|
+| offset  | Integer |  偏移量  |
+| limit   | Integer |  每页个数|
+| name      | String |  角色  |
+| status  | Integer |  角色状态  |
+
+
+返回参数
+
+| 字段名  |  类型   |   注释   |
+|:-------:|:-------:|:--------:|
+| id  | Integer |  角色ID  |
+| name   | String |  角色|
+| comment  | String  |  角色介绍|
+| status  | Integer |  状态1:有效0无效  |
+
+返回示例
+```json
+{
+	"code": 0,
+	"data": {
+		"count": 2,
+		"items": [{
+			"id": 1,
+			"name": "角色1",
+			"comment": "角色1测试",
+			"status": 1,
+			"created_at": "2019-06-24 10:26:13",
+			"updated_at": "2019-06-24 10:26:13"
+		}, {
+			"id": 2,
+			"name": "3",
+			"comment": "4",
+			"status": 1,
+			"created_at": "2019-06-25 15:34:11",
+			"updated_at": "2019-06-25 15:34:11"
+		}]
+	}
+}
+```
+
+### 2.新增/保存角色
+
+>POST /role/save
+
+请求参数
+
+| 字段名  |  类型   |   注释   |
+|:-------:|:-------:|:--------:|
+|   id    | Integer |  角色ID  |
+|  name   | String  |  角色名称  |
+|  comment   | String  |  角色介绍  |
+| status | Integer   | 状态1可用0不可用 |
+| router_list | Array   | 路由ID |
+
+请求示例
+```json
+{
+	"id": 1,
+	"name": "超级角色",
+	"comment": "超级管理员权限角色",
+	"status": 1,
+	"router_list": [1]
+}
+```
+
+### 3.删除角色
+
+>POST /role/delete
+
+请求参数
+
+| 字段名  |  类型   |   注释   |
+|:-------:|:-------:|:--------:|
+|   id    | Integer |  角色ID  |
+
+请求示例
+```json
+{
+	"id": 2
+}
+```
+### 4.角色详情
+
+>GET /role/info
+
+请求参数
+
+| 字段名  |  类型   |   注释   |
+|:-------:|:-------:|:--------:|
+|   id    | Integer |  角色ID  |
+
+返回参数
+
+| 字段名  |  类型   |   注释   |
+|:-------:|:-------:|:--------:|
+|   id    | Integer |  角色ID  |
+|   name  | String  |  角色  |
+|   comment| String |  角色介绍  |
+|   status| Integer |  状态1可用0不可用  |
+
+返回示例
+```json
+{
+	"code": 0,
+	"data": {
+		"id": 2,
+		"name": "3",
+		"comment": "4",
+		"status": 1,
+		"created_at": "2019-06-25 15:34:11",
+		"updated_at": "2019-06-25 15:34:11"
+	}
+}
+```
+### 5.设置角色
+
+>POST /role/status
+
+请求参数
+
+| 字段名  |  类型   |   注释   |
+|:-------:|:-------:|:--------:|
+|   id    | Integer |  角色ID  |
+
+返回参数
+
+请求示例
+```json
+{
+	"id": 1
+}
+```
+
+### 5.角色路由信息
+
+>POST /role/router/list
+
+请求参数
+
+| 字段名  |  类型   |   注释   |
+|:-------:|:-------:|:--------:|
+|   id    | Integer |  角色id |
+
+返回参数
+
+请求示例
+```json
+{
+	"id": 1,
+}
+```
+返回示例
+```json
+{
+	"code": 0,
+	"data": [{
+		"id": 2,
+		"project_id": 1,
+		"group_id": 7,
+		"type": 1,
+		"name": "管理员",
+		"route": "/user",
+		"method": "get",
+		"created_at": "2019-06-26 01:58:40",
+		"updated_at": "2019-06-26 13:22:56"
+	}, {
+		"id": 4,
+		"project_id": 1,
+		"group_id": 1,
+		"type": 0,
+		"name": "管理员3",
+		"route": "/user",
+		"method": "get",
+		"created_at": "2019-06-26 02:13:45",
+		"updated_at": "2019-06-26 11:44:09"
+	}]
+}
+```
+
+
+## 路由API
+
+### 1.路由列表
+
+>GET /router
+
+请求参数
+
+| 字段名 |  类型   |   注释   |
+|:------:|:-------:|:--------:|
+| offset | Integer |  偏移量  |
+| limit  | Integer | 每页个数 |
+|  name  | String  |  路由名称  |
+
+返回参数:
+
+|   字段名   |  类型   |   注释   |
+|:----------:|:-------:|:--------:|
+|   count    | Integer |   总数   |
+|   items    |  Array  | 路由列表 |
+|  items.id  | Integer |  路由ID  |
+| items.project_id  | Integer  | 项目ID  |
+| items.name | String  |  路由名  |
+| items.type | Integer  |  项目信息  |
+| items.route | String  |  0页面路由 1接口路由 |
+| items.method | String  |  请求方法  |
+| items.group_id | Integer  |  小组ID  |
+| items.group | Array  |  小组信息  |
+
+返回示例
+```json
+{
+	"code": 0,
+	"data": {
+		"count": 3,
+		"items": [{
+			"id": 2,
+			"project_id": 1,
+			"group_id": 7,
+			"type": 1,
+			"name": "管理员",
+			"route": "/user",
+			"method": "get",
+			"created_at": "2019-06-26 01:58:40",
+			"updated_at": "2019-06-26 13:22:56",
+			"project": {
+				"id": 1,
+				"key": "test",
+				"name": "单测专用项目"
+			},
+			"group": {
+				"id": 7,
+				"project_id": 1,
+				"name": "11"
+			}
+		}]
+	}
+}
+```
+
+### 2.新增/保存路由
+
+> POST /router/save
+
+请求参数
+
+| 字段名  |  类型   |   注释   |
+|:-------:|:-------:|:--------:|
+|   id    | Integer |  路由ID  |
+|   project_id   | Integer  | 项目ID  |
+|   group_id    | String |  分组ID  |
+|   type    | Integer |  0页面路由 1接口路由  |
+|   name    | String |  名称  |
+|   route    | String |  路由地址  |
+|   method    | String |  请求方法  |
+
+请求示例
+```json
+{
+	"id": 1,
+	"project_id": 1,
+	"group_id": 1,
+	"type": 1,
+	"name": "默认路由",
+	"route": "/",
+	"method": "GET"
+}
+```
+
+### 3.删除路由
+
+>POST /router/delete
+
+请求参数
+
+| 字段名  |  类型   |   注释   |
+|:-------:|:-------:|:--------:|
+|   id    | Integer |  路由ID  |
+
+请求示例
+```json
+{
+	"id": 2
+}
+```
+### 4.路由详情
+
+>GET /router/find
+
+请求参数
+
+| 字段名  |  类型   |   注释   |
+|:-------:|:-------:|:--------:|
+|   id    | Integer |  路由ID  |
+
+返回参数
+
+| 字段名  |  类型   |   注释   |
+|:-------:|:-------:|:--------:|
+|   id    | Integer |  路由ID  |
+|   project_id   | Integer  | 项目ID  |
+|   group_id    | String |  分组ID  |
+|   type    | Integer |  0页面路由 1接口路由  |
+|   name    | String |  名称  |
+|   route    | String |  路由地址  |
+|   method    | String |  请求方法  |
+
+返回示例
+```json
+{
+	"code": 0,
+	"data": {
+		"id": 1,
+		"project_id": 1,
+		"group_id": 1,
+		"type": 1,
+		"name": "默认路由",
+		"route": "/",
+		"method": "GET",
+		"created_at": "2019-06-27 05:35:50",
+		"updated_at": "2019-06-27 05:35:50"
+	}
+}
+```
+
